@@ -23,15 +23,14 @@ jobs:
         with:
           project: 'todo-app'
           path: '.'
-          format: 'HTML'
+          format: 'JSON'
           out: 'reports' # this is the default, no need to specify unless you wish to override it
-          # args: >
-          #   --failOnCVSS 7
-          #   --enableRetired
+          args: >
+            --prettyPrint
       - name: Upload Test results
         uses: actions/upload-artifact@v4
         with:
            name: Depcheck report
-           path: ${{github.workspace}}/reports/dependency-check-report.html >> $GITHUB_STEP_SUMMARY
-      # - name: Adding markdown
-      #   run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
+           path: ${{github.workspace}}/reports/dependency-check-report.html 
+      - name: Adding markdown
+        run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
