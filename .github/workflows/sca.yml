@@ -32,9 +32,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
            name: Depcheck report
-           path: ${{github.workspace}}/reports/dependency-check-report.html
-      - name: Uploading Test results
-        uses: actions/upload-artifact@v4
-        with:
-           name: Depend-check report
-           path: reports/sample1.html
+           path: ${{github.workspace}}/reports/dependency-check-report.html >> $GITHUB_STEP_SUMMARY
+      # - name: Adding markdown
+      #   run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
