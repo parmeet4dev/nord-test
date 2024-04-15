@@ -8,6 +8,10 @@ on:
 jobs:
   depchecktest:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     name: depecheck_test
     steps:
       - name: Checkout
