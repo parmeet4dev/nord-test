@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '21.5.0'
-      # - run: npm install
+      - run: pwd
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
@@ -25,18 +25,18 @@ jobs:
           path: '.'
           # format: 'JSON'
           format: 'SARIF'
-          out: 'reports' # this is the default, no need to specify unless you wish to override it
+          out: 'reporter' # this is the default, no need to specify unless you wish to override it
           args: >
             --prettyPrint
-      - name: Upload Test results
-        uses: actions/upload-artifact@v4
-        with:
-           name: Depcheck report
-           path: ${{github.workspace}}/reports/dependency-check-report.sarif
+      # - name: Upload Test results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #      name: Depcheck report
+      #      path: ${{github.workspace}}/reports/dependency-check-report.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-            sarif_file: ${{github.workspace}}/reports/dependency-check-report.sarif
+            sarif_file: reporter/dependency-check-report.sarif
           # sarif_file: snyk.sarif
           # sarif_file: ${{github.workspace}}/reports/dependency-check-report.sarif
           # sarif_file: /github/workspace/reports/dependency-check-report.sarif
