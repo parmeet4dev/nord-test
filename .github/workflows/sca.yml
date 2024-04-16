@@ -52,10 +52,4 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-            # sarif_file: reports/dependency-check-report.sarif
             sarif_file: sarif/reports/dependency-check-report.sarif
-          # sarif_file: snyk.sarif
-          # sarif_file: ${{github.workspace}}/reports/dependency-check-report.sarif
-          # sarif_file: /github/workspace/reports/dependency-check-report.sarif
-      # - name: Adding markdown
-      #   run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
