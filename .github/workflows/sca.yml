@@ -36,6 +36,17 @@ jobs:
         with:
           node-version: '21.5.0'
       - run: pwd
+      - name: Depcheck-HTML
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'todo-app'
+          path: '.'
+          # format: 'JSON'
+          format: 'HTML'
+          out: 'sarif/reports/' # this is the default, no need to specify unless you wish to override it
+          args: >
+            --prettyPrint
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
@@ -45,8 +56,8 @@ jobs:
           # format: 'JSON'
           format: 'SARIF'
           out: 'sarif/reports/dependency-check-report-${{ env.NOW }}.sarif' # this is the default, no need to specify unless you wish to override it
-          args: >
-            --prettyPrint
+          # args: >
+          #   --prettyPrint
       - name: Upload Test results
         uses: actions/upload-artifact@v4
         with:
