@@ -44,7 +44,7 @@ jobs:
           path: '.'
           # format: 'JSON'
           format: 'HTML'
-          out: 'sarif/reports/' # this is the default, no need to specify unless you wish to override it
+          out: 'sarif/reports/' # this is the default,  no need to specify unless you wish to override it
           args: >
             --prettyPrint
       - name: Depcheck
