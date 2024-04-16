@@ -44,7 +44,7 @@ jobs:
           path: '.'
           # format: 'JSON'
           format: 'SARIF'
-          out: 'sarif/reports/dependency-check-report-$NOW.sarif' # this is the default, no need to specify unless you wish to override it
+          out: 'sarif/reports/dependency-check-report-${{ env.NOW }}.sarif' # this is the default, no need to specify unless you wish to override it
           args: >
             --prettyPrint
       - name: Upload Test results
@@ -52,9 +52,9 @@ jobs:
         with:
            name: Depcheck report
           #  path: ${{github.workspace}}/reports/dependency-check-report.sarif
-           path: sarif/reports/dependency-check-report.sarif
+           path: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-            sarif_file: sarif/reports/dependency-check-report.sarif
+            sarif_file: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
             # sarif_file: /github/workspace/sarif/reports/dependency-check-report.sarif
