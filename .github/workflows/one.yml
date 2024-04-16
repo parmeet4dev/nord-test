@@ -1,4 +1,4 @@
-name: NPM SCA
+name: NPM 
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
           path: '.'
           # format: 'JSON'
           format: 'HTML'
-          out: 'sarif/reports/dependency-check-report-${{ env.NOW }}.html' # this is the default, no need to specify unless you wish to override it
+          out: 'html/reports/dependency-check-report-${{ env.NOW }}.html' # this is the default, no need to specify unless you wish to override it
           args: >
             --prettyPrint
       - name: Upload Test results
@@ -51,4 +51,4 @@ jobs:
         with:
            name: Depcheck report
           #  path: ${{github.workspace}}/reports/dependency-check-report.sarif
-           path: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
+           path: html/reports/dependency-check-report-${{ env.NOW }}.html
