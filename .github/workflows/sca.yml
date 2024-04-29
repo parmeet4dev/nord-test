@@ -26,7 +26,7 @@ jobs:
     name: depecheck_test
     steps:
       - name: Set current date as env variable
-        run: echo "NOW=$(date +'%Y-%m-%dT%H%M')" >> $GITHUB_ENV
+        run: echo "NOW=$(date +'%Y-%m-%dT-%H-%M')" >> $GITHUB_ENV
       - name: Echo current date
         run: echo $NOW # Gives "2022-12-11T01:42:20"
       - name: Checkout
@@ -35,7 +35,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '21.5.0'
-      - run: pwd
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
@@ -45,16 +44,19 @@ jobs:
           # format: 'JSON'
           format: 'SARIF'
           out: 'sarif/reports/dependency-check-report-${{ env.NOW }}.sarif' # this is the default, no need to specify unless you wish to override it
-          args: >
-            --prettyPrint
+          # out: 'reports' # this is the default, no need to specify unless you wish to override it
+          # args: >
+          #   --prettyPrint
       - name: Upload Test results
         uses: actions/upload-artifact@v4
         with:
-           name: Depcheck report
+           name: dependency-check-report-${{ env.NOW }}
           #  path: ${{github.workspace}}/reports/dependency-check-report.sarif
+          #  path: 'reports'
            path: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
             sarif_file: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
+            category: my-analysis-tool
             # sarif_file: /github/workspace/sarif/reports/dependency-check-report.sarif

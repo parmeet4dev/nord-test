@@ -1,0 +1,72 @@
+name: NPM 
+
+on:
+  workflow_run:
+    workflows: ["NPM SCA"]
+    types:
+      - completed
+# on:
+#   push:
+#     branches: 
+#       - main
+#   pull_request:
+#     branches: 
+#       - '*'
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+
+
+jobs:
+  depchecktest:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      security-events: write
+      id-token: write
+      contents: write
+      pull-requests: write
+      repository-projects: write
+    name: depecheck_test
+    steps:
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y-%m-%dT-%H-%M')" >> $GITHUB_ENV
+      - name: Echo current date
+        run: echo $NOW # Gives "2022-12-11T01:42:20"
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Depcheck report
+          #  path: ${{github.workspace}}/reports/dependency-check-report.sarif
+          path: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
+
+
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      # - name: Run linting rules and tests
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '21.5.0'
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+            sarif_file: sarif/reports/dependency-check-report-${{ env.NOW }}.sarif
+            category: my-analysis-tool
+      # - name: Depcheck-HTML
+      #   uses: dependency-check/Dependency-Check_Action@main
+      #   id: Depcheck
+      #   with:
+      #     project: 'todo-app'
+      #     path: '.'
+      #     # format: 'JSON'
+      #     format: 'HTML'
+      #     out: 'html/reports/dependency-check-report-${{ env.NOW }}.html' # this is the default, no need to specify unless you wish to override it
+      #     args: >
+      #       --prettyPrint
+      # - name: Upload Test results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #      name: Depcheck report
+      #     #  path: ${{github.workspace}}/reports/dependency-check-report.sarif
+      #      path: html/reports/dependency-check-report-${{ env.NOW }}.html
